@@ -1,0 +1,191 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://assets/head.png" type="Texture" id=1]
+[ext_resource path="res://assets/block.png" type="Texture" id=2]
+[ext_resource path="res://Head.gd" type="Script" id=3]
+[ext_resource path="res://World.gd" type="Script" id=4]
+[ext_resource path="res://assets/normal_block.png" type="Texture" id=5]
+[ext_resource path="res://assets/high_block.png" type="Texture" id=6]
+[ext_resource path="res://assets/low_block.png" type="Texture" id=7]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec2 size = vec2(10, 20);
+uniform float cell_size = 16;
+uniform float cell_spacing = 2;
+uniform vec4 color : hint_color;
+uniform vec4 color2 : hint_color;
+
+varying vec2 v;
+
+void vertex() {
+	v = VERTEX;
+}
+
+void fragment() {
+	COLOR = color2;
+	if(fract(v.x / cell_size) < 0.5 && fract(v.y / cell_size) >= 0.5) COLOR = color;
+	if(fract(v.x / cell_size) >= 0.5 && fract(v.y / cell_size) < 0.5) COLOR = color;
+	
+	/*float step_size = cell_size + cell_spacing;
+	float ratio = cell_spacing / step_size;
+	// Grid
+	if (fract(v.x / step_size) < ratio || fract(v.y / step_size) < ratio) {
+		COLOR = color;
+	}
+	else {
+		COLOR = color2;
+	}*/
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/size = Vector2( 10, 20 )
+shader_param/cell_size = 32.0
+shader_param/cell_spacing = 10.0
+shader_param/color = Color( 0.0656, 0.12224, 0.16, 1 )
+shader_param/color2 = Color( 0.088, 0.153333, 0.2, 1 )
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=4]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=5]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=6]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=7]
+0/name = "Block"
+0/texture = ExtResource( 2 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 3 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 3 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+1/name = "normal_block"
+1/texture = ExtResource( 5 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 0, 0, 16, 16 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 4 )
+1/shape_one_way = false
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 4 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+1/z_index = 0
+2/name = "low_block"
+2/texture = ExtResource( 7 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 0, 0, 16, 16 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape = SubResource( 5 )
+2/shape_one_way = false
+2/shape_one_way_margin = 1.0
+2/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 5 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+2/z_index = 0
+3/name = "high_block"
+3/texture = ExtResource( 6 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 0, 0, 16, 16 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape = SubResource( 6 )
+3/shape_one_way = false
+3/shape_one_way_margin = 1.0
+3/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 6 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+3/z_index = 0
+
+[sub_resource type="Gradient" id=8]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=9]
+gradient = SubResource( 8 )
+
+[sub_resource type="ParticlesMaterial" id=10]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+color_ramp = SubResource( 9 )
+
+[node name="World" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Grid" type="Polygon2D" parent="."]
+material = SubResource( 2 )
+polygon = PoolVector2Array( 288, 32, 992, 32, 992, 288, 736, 288, 736, 576, 32, 576, 32, 96, 288, 96 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource( 7 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 458790, 0, 0, 458800, 0, 0, 524326, 0, 0, 524327, 0, 0, 524328, 0, 0, 524329, 0, 0, 524330, 0, 0, 524331, 0, 0, 524332, 0, 0, 524333, 0, 0, 524334, 0, 0, 524335, 0, 0, 524336, 0, 0, 655398, 0, 0, 655399, 0, 0, 655400, 0, 0, 655401, 0, 0, 655402, 0, 0, 655403, 0, 0, 655404, 0, 0, 655405, 0, 0, 655406, 0, 0, 655407, 0, 0, 655408, 0, 0, 720934, 0, 0, 720944, 0, 0, 1179674, 0, 0, 1179675, 0, 0, 1245210, 0, 0, 1245211, 0, 0, 1966094, 0, 0, 1966096, 0, 0, 1966098, 0, 0 )
+
+[node name="Head" type="Sprite" parent="."]
+modulate = Color( 1, 1, 0, 1 )
+position = Vector2( 128, 240 )
+texture = ExtResource( 1 )
+offset = Vector2( 8, 8 )
+script = ExtResource( 3 )
+
+[node name="GhostTrail" type="Particles2D" parent="Head"]
+visible = false
+show_behind_parent = true
+position = Vector2( 8, 8 )
+amount = 16
+lifetime = 0.5
+local_coords = false
+process_material = SubResource( 10 )
+texture = ExtResource( 1 )
+
+[connection signal="cell_completed" from="Head" to="." method="_on_Head_cell_completed"]
