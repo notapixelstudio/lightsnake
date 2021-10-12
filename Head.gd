@@ -24,6 +24,20 @@ func _process(delta):
 	
 	var new_integer_position = ipos(position)
 	if new_integer_position != last_integer_position:
+		# also complete skipped cells
+		if new_integer_position.x > last_integer_position.x:
+			for d in range(last_integer_position.x, new_integer_position.x):
+				emit_signal('cell_completed', Vector2(d, last_integer_position.y), energy_state)
+		elif new_integer_position.x < last_integer_position.x:
+			for d in range(new_integer_position.x, last_integer_position.x):
+				emit_signal('cell_completed', Vector2(d, last_integer_position.y), energy_state)
+		elif new_integer_position.y > last_integer_position.y:
+			for d in range(last_integer_position.y, new_integer_position.y):
+				emit_signal('cell_completed', Vector2(last_integer_position.x, d), energy_state)
+		elif new_integer_position.y < last_integer_position.y:
+			for d in range(new_integer_position.y, last_integer_position.y):
+				emit_signal('cell_completed', Vector2(last_integer_position.x, d), energy_state)
+		
 		emit_signal('cell_completed', last_integer_position, energy_state)
 		last_integer_position = new_integer_position
 	
